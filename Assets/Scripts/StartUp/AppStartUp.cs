@@ -4,11 +4,8 @@ using Zenject;
 
 public class AppStartUp : MonoBehaviour
 {
-    [Inject] private LoadingScreenLoader _loadingScreenLoader;
-    [Inject] private ILoadingOperation[] _operations;
+    [Inject] private StartUpSceneLoader _loader;
     
     private async void Start()
-    {
-        await _loadingScreenLoader.LoadAndDestroy(_operations);
-    }
+    => await _loader.Load();
 }

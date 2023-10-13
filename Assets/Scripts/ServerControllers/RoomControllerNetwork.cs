@@ -6,7 +6,7 @@ using Zenject;
 
 public class RoomControllerNetwork : MonoBehaviourPunCallbacks
 {
-    private SceneLoader _sceneLoader;
+    private StartUpSceneLoader _sceneLoader;
     private MainMenuLobbyUI _mainMenuLobbyUI;
     private bool _isCanBeInterrupted;
     private bool _isLeftRoom = true;
@@ -14,7 +14,7 @@ public class RoomControllerNetwork : MonoBehaviourPunCallbacks
     private UniTask _taskJoinRoom = UniTask.CompletedTask;
     [Inject]
     private void Construct(MainMenuLobbyUI mainMenuLobbyUI,
-        SceneLoader sceneLoader)
+        StartUpSceneLoader sceneLoader)
     {
         _sceneLoader = sceneLoader;
         _mainMenuLobbyUI = mainMenuLobbyUI;
@@ -64,7 +64,7 @@ public class RoomControllerNetwork : MonoBehaviourPunCallbacks
             _isCanBeInterrupted = false;
             return;
         }
-        
-        PhotonNetwork.LoadLevel(_sceneLoader.NameScene);
+
+        _sceneLoader.Load();
     }
 }

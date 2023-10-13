@@ -458,7 +458,7 @@ MonoBehaviour:
   _canvas: {fileID: 2150798731919412035}
   _slider: {fileID: 6000079405558849037}
   _text: {fileID: 7684779078889460218}
-  _speedBar: 1
+  _speedBar: 100
 --- !u!1 &1870592006331055157
 GameObject:
   m_ObjectHideFlags: 0
