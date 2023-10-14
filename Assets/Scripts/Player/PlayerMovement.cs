@@ -24,9 +24,10 @@ public class PlayerMovement : MonoBehaviour
 
     private void Move(Vector2 direction)
     {
-            Transform transformPlayer;
-            (transformPlayer = transform).rotation = Quaternion.Euler(new Vector3(0,_cameraManager.CameraTransform.transform.eulerAngles.y,0));
-            Vector3 moveDirection = transformPlayer.forward * direction.y + transformPlayer.right * direction.x;
-            transform.Translate(moveDirection * _speed * Time.deltaTime);
+        if (!_view.IsMine) return;
+        Transform transformPlayer;
+        (transformPlayer = transform).rotation = Quaternion.Euler(new Vector3(0,_cameraManager.CameraTransform.transform.eulerAngles.y,0));
+        Vector3 moveDirection = transformPlayer.forward * direction.y + transformPlayer.right * direction.x;
+        transform.position += moveDirection * _speed * Time.deltaTime;
     }
 }

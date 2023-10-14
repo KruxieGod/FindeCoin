@@ -9,22 +9,15 @@ using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using Zenject;
 
-public class PlayerLoader : ILoadingOperation
+public class PlayerLoader
 {
-    [InjectOptional] private DiContainer _container;
     [InjectOptional] private PlayerMovement _player;
     public GameObject Player { get; private set; }
-    public string Description => "Player loading...";
 
     public async UniTask<PlayerMovement> GetPlayer()
     {
+        Player = PhotonNetwork.Instantiate(_player.gameObject.name, Vector3.one, Quaternion.identity);
         await UniTask.WaitUntil(() => !Player.IsUnityNull());
         return Player.GetComponent<PlayerMovement>();
-    }
-
-    public async UniTask Load(Action<float> onProcess)
-    {
-        Player = _player.gameObject;
-        Player = PhotonNetwork.Instantiate(Player.gameObject.name, Vector3.one, Quaternion.identity);
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Cysharp.Threading.Tasks;
 using Photon.Pun;
 using Unity.VisualScripting;
@@ -15,16 +16,15 @@ public class TestSpawnerPlayers :MonoBehaviourPunCallbacks
     [Inject] private PlayerLoader _player;
     [Inject] private CameraManager cameraManager;
     [Inject] private DiContainer _container;
-    private async void Start()
+    private async void Awake()
     {
-        if (PhotonNetwork.LocalPlayer.ActorNumber <= _positions.Length)
-        {
-            var index = PhotonNetwork.LocalPlayer.ActorNumber - 1;
-            var player =  await _player.GetPlayer();
-            _container.Inject(player);
-            player.transform.position = _positions[index].position;
-            cameraManager._toPursue =player.transform;
-        }
+        if (PhotonNetwork.PlayerList.Length > _positions.Length)
+            return;
+        var index = PhotonNetwork.CurrentRoom.Players.TakeWhile(pair => pair.Value != PhotonNetwork.LocalPlayer).Count();
+        var player = await _player.GetPlayer();
+        _container.Inject(player);
+        player.transform.position = _positions[index].position;
+        cameraManager._toPursue =player.transform;
     }
 
     private void Update()

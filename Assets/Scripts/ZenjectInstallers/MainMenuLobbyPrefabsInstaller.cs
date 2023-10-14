@@ -12,7 +12,7 @@ public class MainMenuLobbyPrefabsInstaller : MonoInstaller
     {
         Container.Bind<PlayerMovement>().FromInstance(_player).AsSingle();
         Container.Bind<MainMenuLobbyUI>().FromInstance(_mainMenuLobbyUI).AsSingle();
-        _globalInstallers.GlobalDi.BindInterfacesAndSelfTo<PlayerLoader>().AsSingle();
+        _globalInstallers.GlobalDi.Bind<PlayerLoader>().AsSingle();
         Container.Inject(_globalInstallers.GlobalDi.Resolve<PlayerLoader>());
     }
 }

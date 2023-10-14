@@ -9,7 +9,7 @@ public class MainMenuLobbyInstaller : MonoInstaller
     [Inject] private StartUpSceneLoader _startUpSceneLoader;
     public override void InstallBindings()
     {
-        Container.BindInterfacesAndSelfTo<SceneLoaderNetwork>().AsTransient().WithArguments("GameScene");
+        Container.BindInterfacesAndSelfTo<SceneLoaderNetwork>().AsSingle().WithArguments("GameScene");
         Container.InstantiateComponent<RoomControllerNetwork>(new GameObject());
         Container.Inject(_startUpSceneLoader);
     }
