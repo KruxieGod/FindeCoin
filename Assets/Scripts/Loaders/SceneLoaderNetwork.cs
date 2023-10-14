@@ -15,7 +15,7 @@ namespace Loaders
         {
             onProcess?.Invoke(0f);
             PhotonNetwork.LoadLevel(_nameScene);
-            await UniTask.WaitUntil(() => PhotonNetwork.LevelLoadingProgress +Double.Epsilon >= 100);
+            await UniTask.WaitUntil(() => PhotonNetwork.LevelLoadingProgress +double.Epsilon >= 1);
             onProcess?.Invoke(1f);
         }
     }

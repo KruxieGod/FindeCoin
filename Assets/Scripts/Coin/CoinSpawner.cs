@@ -17,7 +17,7 @@ public class CoinSpawner : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            Debug.Log("MaserClient : "+PhotonNetwork.IsMasterClient);
+            Debug.Log("MasterClient : "+PhotonNetwork.IsMasterClient);
             await InitializeRoom();
         }
     }

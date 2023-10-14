@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using Photon.Pun;
+using Unity.VisualScripting;
 using UnityEngine;
 using Zenject;
 
@@ -13,6 +14,7 @@ public class PlayerMovement : MonoBehaviour
     private CameraManager _cameraManager;
     [SerializeField] private PhotonView _view;
     [SerializeField] private PhotonTransformViewClassic _photonTransformViewClassic;
+
     [Inject]
     private void Construct(PlayerController playerController,
         CameraManager cameraManager)

@@ -22,7 +22,8 @@ public class TestSpawnerPlayers :MonoBehaviourPunCallbacks
             return;
         var index = PhotonNetwork.CurrentRoom.Players.TakeWhile(pair => pair.Value != PhotonNetwork.LocalPlayer).Count();
         var player = await _player.GetPlayer();
-        _container.Inject(player);
+        foreach (var component in player.gameObject.GetComponents<Component>())
+            _container.Inject(component);
         player.transform.position = _positions[index].position;
         cameraManager._toPursue =player.transform;
     }
