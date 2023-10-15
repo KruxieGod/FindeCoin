@@ -13,19 +13,20 @@ using Zenject.SpaceFighter;
 public class TestSpawnerPlayers :MonoBehaviourPunCallbacks
 {
     [SerializeField] private Transform[] _positions;
-    [Inject] private PlayerLoader _player;
+    [InjectOptional] private PlayerLoader _player;
     [Inject] private CameraManager cameraManager;
     [Inject] private DiContainer _container;
     private async void Awake()
     {
         if (PhotonNetwork.PlayerList.Length > _positions.Length)
             return;
+        if (_player is null)
+            return;
         var index = PhotonNetwork.CurrentRoom.Players.TakeWhile(pair => pair.Value != PhotonNetwork.LocalPlayer).Count();
         var player = await _player.GetPlayer();
         foreach (var component in player.gameObject.GetComponents<Component>())
             _container.Inject(component);
         player.transform.position = _positions[index].position;
-        cameraManager._toPursue =player.transform;
     }
 
     private void Update()

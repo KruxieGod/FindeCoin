@@ -44,6 +44,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""MouseButtons"",
+                    ""type"": ""Button"",
+                    ""id"": ""202b8685-3a29-4573-8482-a7317fad224b"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -156,6 +165,17 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""Mouse"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""770bcf54-0f9c-4899-906c-39f87bb75fcb"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MouseButtons"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -166,6 +186,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Movement = asset.FindActionMap("Movement", throwIfNotFound: true);
         m_Movement_Movement = m_Movement.FindAction("Movement", throwIfNotFound: true);
         m_Movement_Mouse = m_Movement.FindAction("Mouse", throwIfNotFound: true);
+        m_Movement_MouseButtons = m_Movement.FindAction("MouseButtons", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -229,12 +250,14 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private List<IMovementActions> m_MovementActionsCallbackInterfaces = new List<IMovementActions>();
     private readonly InputAction m_Movement_Movement;
     private readonly InputAction m_Movement_Mouse;
+    private readonly InputAction m_Movement_MouseButtons;
     public struct MovementActions
     {
         private @PlayerControls m_Wrapper;
         public MovementActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Movement => m_Wrapper.m_Movement_Movement;
         public InputAction @Mouse => m_Wrapper.m_Movement_Mouse;
+        public InputAction @MouseButtons => m_Wrapper.m_Movement_MouseButtons;
         public InputActionMap Get() { return m_Wrapper.m_Movement; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -250,6 +273,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Mouse.started += instance.OnMouse;
             @Mouse.performed += instance.OnMouse;
             @Mouse.canceled += instance.OnMouse;
+            @MouseButtons.started += instance.OnMouseButtons;
+            @MouseButtons.performed += instance.OnMouseButtons;
+            @MouseButtons.canceled += instance.OnMouseButtons;
         }
 
         private void UnregisterCallbacks(IMovementActions instance)
@@ -260,6 +286,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Mouse.started -= instance.OnMouse;
             @Mouse.performed -= instance.OnMouse;
             @Mouse.canceled -= instance.OnMouse;
+            @MouseButtons.started -= instance.OnMouseButtons;
+            @MouseButtons.performed -= instance.OnMouseButtons;
+            @MouseButtons.canceled -= instance.OnMouseButtons;
         }
 
         public void RemoveCallbacks(IMovementActions instance)
@@ -281,5 +310,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     {
         void OnMovement(InputAction.CallbackContext context);
         void OnMouse(InputAction.CallbackContext context);
+        void OnMouseButtons(InputAction.CallbackContext context);
     }
 }

@@ -7,6 +7,7 @@ using Zenject;
 
 public class PlayerController : IDisposable,ITickable
 {
+    public UnityEvent OnLeftMouseClick { get; private set; } = new();
     public UnityEvent<Vector2> OnInputMovement { get; private set; } = new();
     public UnityEvent<Vector2> OnMouseInputMovement { get; private set; } = new();
     private PlayerControls _playerControls;
@@ -16,6 +17,7 @@ public class PlayerController : IDisposable,ITickable
     {
         _playerControls = new PlayerControls();
         _playerControls.Enable();
+        _playerControls.Movement.MouseButtons.started += context => OnLeftMouseClick.Invoke();
         OnInputMovement.AddListener(vect =>  Debug.Log( "Movement: "+vect));
         OnMouseInputMovement.AddListener(vect => Debug.Log("Mouse: "+vect));
         _onTick.AddListener(PlayerMovement);

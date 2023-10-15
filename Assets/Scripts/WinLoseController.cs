@@ -19,10 +19,10 @@ public class WinLoseController
         _startUpSceneLoader = startUpSceneLoader;
         _winLoseUI = winLoseUI;
         _playerController = playerController;
-        Events.OnCollectedCoin.AddListener(WinOfMine);
+        Events.OnLose.AddListener(WinOfMine);
     }
 
-    private void WinOfMine(bool isMine)
+    private void WinOfMine(bool isMine,string name)
     {
         _playerController.DisablePlayerInput();
         Action action = () =>

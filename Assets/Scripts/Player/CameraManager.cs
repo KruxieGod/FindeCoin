@@ -8,11 +8,14 @@ using Zenject;
 
 public class CameraManager : MonoBehaviour
 {
+    private float _xAngle = 0;
+    [SerializeField]private float _rangeAngle;
     public Transform _toPursue;
-    [SerializeField] private Transform _pivotCamera;
+    [SerializeField] private Transform _pivotXCamera;
     [SerializeField] private Camera _camera;
     [SerializeField] private float _sensMouseSpeed;
-    public Transform CameraTransform => _pivotCamera.transform;
+    public Transform YPivotTransform => transform;
+    public Transform XPivotTransform => _pivotXCamera;
     private void Update()
     {
         if (!_toPursue.IsUnityNull())
@@ -27,12 +30,24 @@ public class CameraManager : MonoBehaviour
 
     private void MoveCamera(Vector2 direction)
     {
-        var eulerAngles = _pivotCamera.rotation.eulerAngles;
-        _pivotCamera.rotation = 
+        var eulerAnglesY = transform.localEulerAngles;
+        transform.localRotation = 
             Quaternion.Euler(
                 new Vector3(
-                    eulerAngles.x,
-                    eulerAngles.y + direction.x * _sensMouseSpeed,
-                    eulerAngles.z));
+                    eulerAnglesY.x,
+                    eulerAnglesY.y + direction.x * _sensMouseSpeed,
+                    eulerAnglesY.z));
+        var eulerAnglesX = _pivotXCamera.localEulerAngles;
+        _xAngle -= direction.y * _sensMouseSpeed;
+        if (_xAngle < -_rangeAngle)
+            _xAngle = -_rangeAngle;
+        else if (_xAngle >= _rangeAngle)
+            _xAngle = _rangeAngle;
+        _pivotXCamera.localRotation = 
+            Quaternion.Euler(
+                new Vector3(
+                    _xAngle,
+                    eulerAnglesX.y,
+                    eulerAnglesX.z));
     }
 }

@@ -38,7 +38,7 @@ public class CoinCollector : MonoBehaviour
     {
         _countCoins += count;
         if(_countCoins >= _winCountCoins)
-            Events.OnCollectedCoin?.Invoke(_view.IsMine);
+            Events.OnLose?.Invoke(_view.IsMine,PhotonNetwork.LocalPlayer.UserId);
         _setTextCoin?.Invoke(_countCoins);
     }
 

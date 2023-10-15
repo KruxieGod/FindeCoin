@@ -20,6 +20,7 @@ public class PlayerMovement : MonoBehaviour
         CameraManager cameraManager)
     {
         _cameraManager = cameraManager;
+        _cameraManager._toPursue = transform;
         _playerController = playerController;
         playerController.OnInputMovement.AddListener(Move);
     }
@@ -28,7 +29,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (!_view.IsMine) return;
         Transform transformPlayer;
-        (transformPlayer = transform).rotation = Quaternion.Euler(new Vector3(0,_cameraManager.CameraTransform.transform.eulerAngles.y,0));
+        (transformPlayer = transform).rotation = Quaternion.Euler(new Vector3(0,_cameraManager.YPivotTransform.transform.eulerAngles.y,0));
         Vector3 moveDirection = transformPlayer.forward * direction.y + transformPlayer.right * direction.x;
         transform.position += moveDirection * _speed * Time.deltaTime;
     }

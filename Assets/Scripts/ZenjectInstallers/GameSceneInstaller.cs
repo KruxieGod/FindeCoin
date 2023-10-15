@@ -6,6 +6,7 @@ using Zenject;
 
 public class GameSceneInstaller : MonoInstaller
 {
+    [SerializeField] private HpBarUI _hpBarUI;
     [SerializeField] private WinLoseUI _winLoseUI;
     [SerializeField] private CoinCollectorUI _coinCollectorUI;
     [SerializeField] private CameraManager cameraManager;
@@ -13,6 +14,7 @@ public class GameSceneInstaller : MonoInstaller
     public override void InstallBindings()
     {
         Container.BindInterfacesAndSelfTo<SceneLoader>().AsSingle().WithArguments(Scenes.LOBBY_SCENE);
+        Container.Bind<HpBarUI>().FromInstance(_hpBarUI);
         Container.Bind<WinLoseUI>().FromInstance(_winLoseUI);
         Container.Bind<CoinCollectorUI>().FromInstance(_coinCollectorUI);
         Container.BindInterfacesAndSelfTo<PlayerController>().AsSingle();
