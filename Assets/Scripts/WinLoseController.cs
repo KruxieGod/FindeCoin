@@ -24,6 +24,7 @@ public class WinLoseController
 
     private void WinOfMine(bool isMine,string name)
     {
+        isMine = !isMine;
         _playerController.DisablePlayerInput();
         Action action = () =>
         {

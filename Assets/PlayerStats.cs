@@ -21,11 +21,11 @@ public class PlayerStats : MonoBehaviourPunCallbacks
     {
         _setHpBarSlider = hpBarUI.SetSliderValue;
         _setHpBarSlider.Invoke(1);
-        _currentHp = _maxHp;
     }
 
     private void Awake()
     {
+        _currentHp = _maxHp;
         _collider = GetComponent<Collider>();
         DataColliders.OnDamageTake.Add(_collider,TakeDamageServer);
     }
@@ -33,15 +33,16 @@ public class PlayerStats : MonoBehaviourPunCallbacks
     private void TakeDamageServer(int damage,Vector3 positionHit)
     {
         TakeDamage(damage,positionHit);
-        _photonView.RPC("TakeDamage",RpcTarget.Others,damage);
+        _photonView.RPC("TakeDamage",RpcTarget.Others,damage ,positionHit);
     }
 
+    [PunRPC]
     private void TakeDamage(int damage,Vector3 positionHit)
     {
         _currentHp = Mathf.Clamp(_currentHp - damage,0,_maxHp);
         if (_currentHp == 0)
             Events.OnLose.Invoke(_photonView.IsMine,_photonView.ViewID.ToString());
-        _setHpBarSlider.Invoke((float)_currentHp/_maxHp);
+        _setHpBarSlider?.Invoke((float)_currentHp/_maxHp);
         Destroy(Instantiate( _particles, positionHit,Quaternion.identity).gameObject,2f);
     }
 
