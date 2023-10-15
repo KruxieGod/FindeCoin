@@ -11,8 +11,10 @@ using Zenject;
 public class MainMenuLobbyUI : GUI
 {
     [field: SerializeField] public TextMeshProUGUI TextWaiting;
+    [SerializeField] private InputVariable _setName;
     [SerializeField] private InputVariable _createRoom;
     [SerializeField] private InputVariable _loadRoom;
+    public UnityEvent<string> OnSetName => _setName.OnClick;
     public UnityEvent<string> OnCreateRoom => _createRoom.OnClick;
     public UnityEvent<string> OnLoadRoom => _loadRoom.OnClick;
     public UnityEvent OnPressedAnyButton { get; private set; } = new();

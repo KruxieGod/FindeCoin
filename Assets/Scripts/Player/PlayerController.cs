@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using Zenject;
 
-public class PlayerController : IDisposable,ITickable
+public class PlayerController : IDisposable,ITickable,IPlayerController
 {
     public UnityEvent OnLeftMouseClick { get; private set; } = new();
     public UnityEvent<Vector2> OnInputMovement { get; private set; } = new();
@@ -39,4 +39,12 @@ public class PlayerController : IDisposable,ITickable
     {
         _playerControls.Enable();
     }
+}
+
+public interface IPlayerController
+{
+    public UnityEvent OnLeftMouseClick { get;  }
+    public UnityEvent<Vector2> OnInputMovement { get;  } 
+    public UnityEvent<Vector2> OnMouseInputMovement { get;  }
+    void DisablePlayerInput();
 }

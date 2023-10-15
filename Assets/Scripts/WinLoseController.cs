@@ -1,6 +1,7 @@
 
 using System;
-using Cysharp.Threading.Tasks;
+using System.Linq;
+using ModestTree;
 using Photon.Pun;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -10,10 +11,10 @@ using Object = UnityEngine.Object;
 public class WinLoseController
 {
     private WinLoseUI _winLoseUI;
-    private readonly PlayerController _playerController;
+    private readonly IPlayerController _playerController;
     private readonly StartUpSceneLoader _startUpSceneLoader;
     public WinLoseController(WinLoseUI winLoseUI,
-        PlayerController playerController,
+        IPlayerController playerController,
         StartUpSceneLoader startUpSceneLoader)
     {
         _startUpSceneLoader = startUpSceneLoader;
@@ -22,7 +23,7 @@ public class WinLoseController
         Events.OnLose.AddListener(WinOfMine);
     }
 
-    private void WinOfMine(bool isMine,string name)
+    private void WinOfMine(bool isMine)
     {
         isMine = !isMine;
         _playerController.DisablePlayerInput();
@@ -31,11 +32,18 @@ public class WinLoseController
             PhotonNetwork.LeaveRoom();
             _startUpSceneLoader.Load();
         };
-        _winLoseUI.WinUI.OnClick.AddListener( action.Invoke);
-        _winLoseUI.LoseUI.OnClick.AddListener( action.Invoke);
+        string name = Events.OnPlayerResultMatch.Select(func => func.Invoke()).Join(" ");
         if (isMine)
+        {
+            _winLoseUI.WinUI.TextResult.SetText(name);
+            _winLoseUI.WinUI.OnClick.AddListener( action.Invoke);
             _winLoseUI.WinUI.gameObject.SetActive(true);
+        }
         else
+        {
+            _winLoseUI.LoseUI.TextResult.SetText(name);
+            _winLoseUI.LoseUI.OnClick.AddListener( action.Invoke);
             _winLoseUI.LoseUI.gameObject.SetActive(true);
+        }
     }
 }

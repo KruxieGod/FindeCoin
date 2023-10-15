@@ -15,7 +15,8 @@ public class CameraManager : MonoBehaviour
     [SerializeField] private Camera _camera;
     [SerializeField] private float _sensMouseSpeed;
     public Transform YPivotTransform => transform;
-    public Transform XPivotTransform => _pivotXCamera;
+    public Vector3 CameraPosition => _camera.transform.position;
+    public Vector3 CameraForward => _camera.transform.forward;
     private void Update()
     {
         if (!_toPursue.IsUnityNull())
@@ -23,7 +24,7 @@ public class CameraManager : MonoBehaviour
     }
 
     [Inject]
-    private void Construct(PlayerController playerController)
+    private void Construct(IPlayerController playerController)
     {
         playerController.OnMouseInputMovement.AddListener(MoveCamera);
     }

@@ -10,13 +10,13 @@ using Zenject;
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private float _speed;
-    private PlayerController _playerController;
+    private IPlayerController _playerController;
     private CameraManager _cameraManager;
     [SerializeField] private PhotonView _view;
     [SerializeField] private PhotonTransformViewClassic _photonTransformViewClassic;
 
     [Inject]
-    private void Construct(PlayerController playerController,
+    private void Construct(IPlayerController playerController,
         CameraManager cameraManager)
     {
         _cameraManager = cameraManager;

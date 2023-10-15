@@ -15,5 +15,6 @@ public class GlobalInstallers : MonoInstaller
         Container.Bind<Camera>().FromInstance(camera).AsSingle();
         Container.Bind<LoadingScreenLoader>().AsTransient();
         Container.Bind<StartUpSceneLoader>().AsSingle();
+        Container.Bind<LoginLoader>().AsSingle();
     }
 }

@@ -21,6 +21,7 @@ public class CoinCollector : MonoBehaviour
     
     private void Awake()
     {
+        GetComponent<PlayerStats>().OnResult.Add(() => "collected "+_countCoins + " coins");
         _collider = GetComponent<Collider>();
         DataColliders.CoinCollection.Add(_collider,AddCoin);
     }
@@ -37,8 +38,6 @@ public class CoinCollector : MonoBehaviour
     private void AddCoinServer(int count)
     {
         _countCoins += count;
-        if(_countCoins >= _winCountCoins)
-            Events.OnLose?.Invoke(_view.IsMine,PhotonNetwork.LocalPlayer.UserId);
         _setTextCoin?.Invoke(_countCoins);
     }
 

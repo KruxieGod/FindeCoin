@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -13,5 +14,8 @@ public class InputVariable : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _text;
 
     private void Start()
-    => _button.onClick.AddListener(() => OnClick.Invoke(_text.text));
+    {
+        if (!_button.IsUnityNull())
+            _button.onClick.AddListener(() => OnClick.Invoke(_text.text));
+    }
 }
